@@ -1,0 +1,6 @@
+[submodule "Submodules/MRMongoTools"]
+	path = Submodules/MRMongoTools
+	url = https://github.com/laboratory-rat/MRMongoTools
+[submodule "Submodules/MRMigrationMaster"]
+	path = Submodules/MRMigrationMaster
+	url = https://github.com/laboratory-rat/MRMigrationMaster
