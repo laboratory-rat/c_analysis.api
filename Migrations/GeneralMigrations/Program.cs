@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace GeneralMigrations
+﻿namespace GeneralMigrations
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var master = new GeneralMigrationsMaster();
+            master.Start().Wait();
         }
     }
 }
