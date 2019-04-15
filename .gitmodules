@@ -4,3 +4,6 @@
 [submodule "Submodules/MRMigrationMaster"]
 	path = Submodules/MRMigrationMaster
 	url = https://github.com/laboratory-rat/MRMigrationMaster
+[submodule "submodules/IdentityConnector"]
+	path = submodules/IdentityConnector
+	url = https://github.com/laboratory-rat/MRIdentityClient.git
