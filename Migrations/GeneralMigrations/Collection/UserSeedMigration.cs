@@ -1,4 +1,6 @@
-﻿using Infrastructure.Enums;
+﻿using Infrastructure.Entity.User;
+using Infrastructure.Enums;
+using Manager;
 using Microsoft.Extensions.DependencyInjection;
 using MRMigrationMaster.Infrastructure.Attr;
 using MRMigrationMaster.Infrastructure.Component;
@@ -6,7 +8,6 @@ using MRMigrationMaster.Infrastructure.Interface;
 using MRMongoTools.Extensions.Identity.Component;
 using MRMongoTools.Extensions.Identity.Interface;
 using MRMongoTools.Extensions.Identity.Manager;
-using MRMongoTools.Extensions.Identity.Store;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace GeneralMigrations.Collection
         {
             new UserToSeed
             {
-                User = new MRUser
+                User = new UserEntity
                 {
                     Email = "oleg.timofeev20@gmail.com",
                     NormalizedEmail = "OLEGT.TIMOFEEV20@GMAIL.COM",
@@ -45,8 +46,8 @@ namespace GeneralMigrations.Collection
         {
             var provider = _services.BuildServiceProvider();
 
-            var userRepository = provider.GetRequiredService<IMRUserStore>();
-            var userManager = provider.GetRequiredService<MRUserManager>();
+            var userRepository = provider.GetRequiredService<IMRUserStore<UserEntity>>();
+            var userManager = provider.GetRequiredService<IdentityUserManager>();
             var roleManager = provider.GetRequiredService<MRRoleManager>();
 
             Log("Seed roles", MRMigrationMaster.Infrastructure.Enum.LogType.INFO);
@@ -85,7 +86,7 @@ namespace GeneralMigrations.Collection
                 var toSeedPassword = userObj.Password;
                 var toSeedRoles = userObj.Roles;
 
-                MRUser exists;
+                UserEntity exists;
 
                 if (await userRepository.Any(x => x.NormalizedEmail == toSeedUser.NormalizedEmail))
                 {
@@ -95,8 +96,9 @@ namespace GeneralMigrations.Collection
                 else
                 {
                     exists = toSeedUser;
-                    exists.SecurityStamp = "SS";
+
                     await userManager.CreateAsync(exists, toSeedPassword);
+
                     LogU(exists);
                     seeded++;
                 }
@@ -123,13 +125,11 @@ namespace GeneralMigrations.Collection
         {
             Log($"-- {user.Email}", MRMigrationMaster.Infrastructure.Enum.LogType.INFO);
         }
-
-
     }
 
     public class UserToSeed
     {
-        public MRUser User { get; set; }
+        public UserEntity User { get; set; }
         public string Password { get; set; }
         public List<UserRoles> Roles { get; set; }
     }

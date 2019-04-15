@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Infrastructure.Enums
+namespace Infrastructure.Entity.Enum
 {
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum UserRoles
+    public enum CoinHistoryType
     {
-        USER,
-        ADMIN
+        COIN_TO_COIN,
+        COIN_TO_CURRENCY
     }
 }
